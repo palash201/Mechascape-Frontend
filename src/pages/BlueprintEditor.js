@@ -12,6 +12,7 @@ const BlueprintEditor = () => {
   const canvasRef = useRef(null);
   const canvasObj = useRef(null);
   const [currentBlueprintId, setCurrentBlueprintId] = useState(null);
+  const [currentResponseData, setCurrentResponseData] = useState(null);
   const { authToken } = useAuth();
   const navigate = useNavigate();
 
@@ -251,6 +252,50 @@ const handleKeyDown = (event) => {
 
 window.addEventListener('keydown', handleKeyDown);
 
+const steampunkify = async () => {
+  try {
+    // Convert canvas to a data URL (base64 encoded image)
+    const canvasDataUrl = canvasObj.current.toDataURL('image/png');
+    
+    // Extract the base64 data (remove the prefix)
+    const base64Image = canvasDataUrl.split(',')[1];
+
+    // Prepare the data to be sent to the server
+    const requestData = {
+      name: currentResponseData['name'],
+      description: currentResponseData['description'],
+      drawing_data: base64Image, // Add the base64 image here
+    };
+
+    console.log(requestData)
+
+    // Make the POST request
+    const response = await api.post('/ai/steampunkify', requestData, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+      responseType: 'blob', // Important for downloading images
+    });
+
+    // Create a URL for the returned image
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+
+    // Create an anchor element to trigger download
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'steampunkified_image.png'); // Specify the download file name
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    // Clean up the URL object
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Error steampunkifying:', error);
+  }
+};
+
+
 // The updated saveBlueprint function
 const saveBlueprint = async () => {
   try {
@@ -325,6 +370,7 @@ const saveBlueprint = async () => {
       console.log('Loaded blueprint:', response.data);
       canvasObj.current.loadFromJSON(response.data.drawing_data, () => {
         setCurrentBlueprintId(blueprintId);
+        setCurrentResponseData(response.data);
       });
     } catch (error) {
       console.error('Error loading blueprint:', error);
@@ -462,6 +508,10 @@ const saveBlueprint = async () => {
   >
     Add Triangle
   </button>
+  <button onClick={steampunkify} className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+  Steampunkify
+</button>
+
         <button onClick={generateBlueprint} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
           Generate Blueprint
         </button>
