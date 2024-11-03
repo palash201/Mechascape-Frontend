@@ -1,7 +1,7 @@
 // src/pages/LoginPage.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import api from '../api'; // Axios instance
+import { useAuth } from './AuthProvider'; // Import AuthProvider context
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -9,6 +9,7 @@ const LoginPage = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false); // New loading state
   const navigate = useNavigate();
+  const { authenticateUser } = useAuth(); // Correct destructuring of login function
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,15 +17,11 @@ const LoginPage = () => {
     setError(''); // Reset error message
 
     try {
-      const response = await api.post('/auth/login', { username, password });
-      
-      // Assuming your API returns a token on successful login
-      const { token } = response.data;
-
-      // Store the token in localStorage or sessionStorage
-      localStorage.setItem('token', token);
+      // Use the authenticateUser method from AuthProvider
+      await authenticateUser(username, password);
 
       // Redirect to the dashboard or another page after successful login
+      console.log("Navigating to dashboard"); // Debug log
       navigate('/dashboard');
     } catch (error) {
       console.error('Login failed:', error);

@@ -1,0 +1,110 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  background-color: #121212; /* Dark background for the entire page */
+  color: #e0e0e0; /* Light text color for readability */
+}
+
+.page-container {
+  flex-grow: 1; /* Allow this container to grow and fill available space */
+  display: flex; /* Use flexbox to align children */
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center content vertically */
+  align-items: center; /* Center content horizontally */
+  height: 100%; /* Ensure it takes the full height of the parent */
+}
+
+.blueprint-editor {
+  position: relative; /* Establish a positioning context */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center; /* Center vertically */
+  align-items: center; /* Center horizontally */
+  background-color: #1e1e1e; /* Darker background for the editor area */
+  padding: 20px; /* Add some padding */
+  border-radius: 0px; /* Optional: round corners */
+}
+
+.canvas-container {
+  display: flex;
+  width: 95%; /* Full width */
+  max-width: 1200px; /* Optional: set a max width for better layout */
+  height: 80vh; /* Set height to 80% of viewport height */
+  overflow: hidden; /* Prevent overflow issues */
+}
+
+.canvas {
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  border: 1px solid #333; /* Optional: add a border for clarity */
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center buttons horizontally */
+  justify-content: space-around; /* Evenly space buttons */
+  padding: 10px; /* Add padding */
+  background-color: #333; /* Dark background for sidebar */
+  border-left: 1px solid #444; /* Darker border for clarity */
+  height: 100%; /* Fill the height of the container */
+}
+
+.tool-button {
+  width: calc(0.06 * 80vh); /* 3% of parent height */
+  height: calc(0.06 * 80vh); /* Keep the height equal to the width for square buttons */
+  margin: 5px 0; /* Space between buttons */
+  background-color: #007bff; /* Button color */
+  color: white; /* Text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth color transition */
+}
+
+.tool-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around; /* Space out buttons evenly */
+  padding: 10px 0; /* Add some padding */
+  background-color: #1e1e1e; /* Match editor background */
+  width: 100%; /* Ensure the button container takes the full width */
+  max-width: 1200px; /* Optional: set a max width for better layout */
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; /* Evenly space the children */
+  align-items: center; /* Center items vertically */
+  gap: 10px; /* Add space between items */
+  padding: 10px;
+  background-color: #222; /* Dark background for controls */
+  border-bottom: 1px solid #444; /* Dark border for separation */
+  width: 100%; /* Full width */
+  max-width: 1200px; /* Optional: set a max width for better layout */
+}
+
+.controls label {
+  display: flex;
+  align-items: center; /* Center label content vertically */
+  gap: 5px; /* Space between the label text and input */
+}
+
+.controls input,
+.controls select {
+  margin-left: 5px; /* Add space between input and label */
+  padding: 5px;
+  border: 1px solid #444; /* Dark border */
+  border-radius: 4px;
+  background-color: #333; /* Dark background for inputs */
+  color: #e0e0e0; /* Light text color */
+}
+
+.controls input[type="color"] {
+  padding: 0; /* No padding for color input */
+}

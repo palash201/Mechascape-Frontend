@@ -17,12 +17,17 @@ const SignupPage = () => {
     setError(''); // Clear previous errors
 
     try {
-      await api.post('/auth/signup', { username, password, email });
+      const pkg = {
+        username: username,
+        email: email,
+        password: password
+      }
+      console.log(pkg)
+      await api.post('/auth/signup', pkg);
       navigate('/login'); // Redirect to login after successful signup
     } catch (error) {
-      // Update the error state with a friendly message
-      const errorMessage = error.response?.data?.detail || 'Signup failed. Please try again.';
-      setError(errorMessage);
+      console.error('Login failed:', error);
+      setError('Username or email is already associated with an account.'); // Set an error message
     } finally {
       setLoading(false); // Stop loading regardless of success or error
     }

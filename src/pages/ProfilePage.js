@@ -1,10 +1,10 @@
 // src/pages/ProfilePage.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api'; // Your Axios instance
+import { useAuth } from './AuthProvider'; // Import AuthProvider context
 
 const ProfilePage = () => {
-  const [user, setUser] = useState(null);
+  const { user, updateUser } = useAuth(); // Access user and updateUser from AuthProvider
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,27 +13,22 @@ const ProfilePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-      try {
-        const response = await api.get('/auth/me'); // Endpoint to get user profile data
-        setUser(response.data);
-        setUsername(response.data.username);
-        setEmail(response.data.email);
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
-        navigate('/login'); // Redirect to login if fetching fails
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUserProfile();
-  }, [navigate]);
+    if (user) {
+      // Initialize state with user data from context
+      setUsername(user.username);
+      setEmail(user.email);
+      setLoading(false); // Data is ready
+    } else {
+      // Redirect to login if user is not authenticated
+      navigate('/login');
+    }
+  }, [user, navigate]);
 
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
-      await api.put('/auth/update', { username, email, password }); // Adjust endpoint accordingly
+      // Call updateUser from AuthProvider to update user profile
+      await updateUser({ username, email, password });
       setMessage('Profile updated successfully!');
     } catch (error) {
       console.error('Error updating profile:', error);

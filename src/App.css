@@ -1,31 +1,51 @@
+body {
+  margin: 0;
+  /*font-family: 'Courier New', Courier, monospace; /* A typewriter-style font for a steampunk feel */
+  background-color: #1c1c1c; /* Dark background color */
+  background-size: cover; /* Cover the entire body */
+  color: white; /* Set default text color to white */
+  height: 100vh; /* Ensure the body covers full height */
+}
+
 .App {
   text-align: center;
+  height: 100vh; /* Ensure the App container covers full height */
+  width: 100vw; /* Ensure the App container covers full width */
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Stack children vertically */
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.content-container {
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with 0.5 opacity */
+  padding: 20px; /* Add some padding */
+  border-radius: 10px; /* Optional: rounded corners */
+  margin: 20px; /* Optional: margin around the container */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+
+.logo-container {
+  padding: 20px;
+  margin: 20px;
+}
+
+.logo {
+  width: 150px; /* Adjust the size as needed */
+  height: auto;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: rgba(44, 44, 44, 0.9); /* Semi-transparent dark background for the header */
+  flex-grow: 1; /* Allow header to grow and fill space */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: white; /* Ensure header text is also white */
 }
 
 .App-link {
-  color: #61dafb;
+  color: #61dafb; /* This can remain as is if you want to keep this specific link color */
 }
 
 @keyframes App-logo-spin {
